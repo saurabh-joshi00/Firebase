@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import {
   Dialog,
   DialogPanel,
@@ -23,6 +23,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
+import { CartContext } from '../../MainContext/Context'
+import { toast, ToastContainer } from 'react-toastify'
 
 const products = [
   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -37,10 +39,19 @@ const callsToAction = [
 ]
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  let {isLogin, setIsLogin} = useContext(CartContext);
+
+  const logoutHandler = () => {
+    localStorage.removeItem('userLogin');     //Remove Data from Local Storage
+    // localStorage.clear();    //Remove All (Clear Local Storage)
+    setIsLogin(false);
+  }
 
   return (
     <>
+    <ToastContainer/>
       <header className="bg-white">
         <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
@@ -118,16 +129,35 @@ export default function Header() {
               Company
             </a>
           </PopoverGroup>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+
+          { isLogin 
+
+          ? 
+
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end cursor-pointer" onClick={logoutHandler}>
+            <div className="text-sm/6 font-semibold text-gray-900">
+              Logout <span aria-hidden="true">&rarr;</span>
+            </div>
           </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/register" className="text-sm/6 font-semibold text-gray-900">
-              Register <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
+
+          : 
+
+          <>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Link to="/register" className="text-sm/6 font-semibold text-gray-900">
+                Register <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+          </>
+          
+          }
+
+          
         </nav>
         <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
           <div className="fixed inset-0 z-10" />

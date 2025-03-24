@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getDatabase, ref, onValue } from "firebase/database";
 import app from '../FirebaseConfig/firebase';
+import { CartContext } from '../MainContext/Context';
+import { useNavigate } from 'react-router-dom';
 
 export default function EnquiryData() {
-
+  //firebase relatime database
   const [contactData, setContactData] = useState([]);
 
   useEffect(() => {
@@ -23,6 +25,17 @@ export default function EnquiryData() {
       // updateStarCount(postElement, data);  
     });
   },[])
+
+  //redirecting to login page if user is not logged-in
+  let {isLogin} = useContext(CartContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isLogin === false){
+      navigate('/login');
+    }
+  },[isLogin]);
 
   return (
     <>
