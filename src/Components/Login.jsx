@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { CartContext } from '../MainContext/Context';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { toast, ToastContainer } from 'react-toastify';
+import useTitle from './useTitle';
 
 export default function Login() {
+
+  useTitle("Login");
 
   //redirecting to home page if user is already logged-in
   let {isLogin, setIsLogin} = useContext(CartContext);

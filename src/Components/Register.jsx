@@ -3,8 +3,11 @@ import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthPro
 import { toast, ToastContainer } from 'react-toastify';
 import { CartContext } from '../MainContext/Context';
 import { useNavigate } from 'react-router-dom';
+import useTitle from './useTitle';
 
 export default function Register() {
+
+    useTitle("Register");
 
     //redirecting to home page if user is already logged-in
     let {isLogin, setIsLogin} = useContext(CartContext);

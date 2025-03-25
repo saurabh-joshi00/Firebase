@@ -3,8 +3,12 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import app from '../FirebaseConfig/firebase';
 import { CartContext } from '../MainContext/Context';
 import { useNavigate } from 'react-router-dom';
+import useTitle from './useTitle';
 
 export default function EnquiryData() {
+
+  useTitle("View Data");
+
   //firebase relatime database
   const [contactData, setContactData] = useState([]);
 
